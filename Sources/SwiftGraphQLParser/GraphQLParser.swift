@@ -1,10 +1,10 @@
 import Foundation
 
-enum ParserError: Error, Equatable {
+public enum ParserError: Error, Equatable {
     case unexpectedToken(Token)
 }
 
-func parse(_ input: String) throws -> Document {
+public func parse(_ input: String) throws -> Document {
     var tokens = try ArraySlice(tokenize(input))
     var definitions: [ExecutableDefinition] = []
     

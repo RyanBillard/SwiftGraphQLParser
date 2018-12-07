@@ -7,16 +7,16 @@
 
 import Foundation
 
-class GraphQLTraverser {
+public class GraphQLTraverser {
     let document: Document
     let visitor: GraphQLBaseVisitor
     
-    init(document: Document, with visitor: GraphQLBaseVisitor) {
+    public init(document: Document, with visitor: GraphQLBaseVisitor) {
         self.document = document
         self.visitor = visitor
     }
     
-    func traverse() throws {
+    public func traverse() throws {
         try visitor.visitDocument(document: document)
         
         try traverseDefinitions(definitions: document.definitions)
@@ -263,7 +263,7 @@ class GraphQLTraverser {
     }
 }
 
-class GraphQLBaseVisitor {
+open class GraphQLBaseVisitor {
     struct Error: LocalizedError {
         let errorDescription: String?
         
@@ -272,108 +272,108 @@ class GraphQLBaseVisitor {
         }
     }
     
-    func visitDocument(document: Document) throws {}
+    open func visitDocument(document: Document) throws {}
     
-    func exitDocument(document: Document) throws {}
+    open func exitDocument(document: Document) throws {}
     
-    func visitOperationDefinition(operationDefinition: OperationDefinition) throws {}
+    open func visitOperationDefinition(operationDefinition: OperationDefinition) throws {}
     
-    func exitOperationDefinition(operationDefinition: OperationDefinition) throws {}
+    open func exitOperationDefinition(operationDefinition: OperationDefinition) throws {}
     
-    func visitOperation(operation: Operation) throws {}
+    open func visitOperation(operation: Operation) throws {}
     
-    func exitOperation(operation: Operation) throws {}
+    open func exitOperation(operation: Operation) throws {}
     
-    func visitExecutableDefinitions(executableDefinitions: [ExecutableDefinition]) throws {}
+    open func visitExecutableDefinitions(executableDefinitions: [ExecutableDefinition]) throws {}
     
-    func exitExecutableDefinitions(executableDefinitions: [ExecutableDefinition]) throws {}
+    open func exitExecutableDefinitions(executableDefinitions: [ExecutableDefinition]) throws {}
     
-    func visitVariableDefinition(variableDefinition: VariableDefinition) throws {}
+    open func visitVariableDefinition(variableDefinition: VariableDefinition) throws {}
     
-    func exitVariableDefinition(variableDefinition: VariableDefinition) throws {}
+    open func exitVariableDefinition(variableDefinition: VariableDefinition) throws {}
     
-    func visitSelectionSet(selectionSet: [Selection]) throws {}
+    open func visitSelectionSet(selectionSet: [Selection]) throws {}
     
-    func exitSelectionSet(selectionSet: [Selection]) throws {}
+    open func exitSelectionSet(selectionSet: [Selection]) throws {}
     
-    func visitField(field: Field) throws {}
+    open func visitField(field: Field) throws {}
     
-    func exitField(field: Field) throws {}
+    open func exitField(field: Field) throws {}
     
-    func visitFragmentSpread(fragmentSpread: FragmentSpread) throws {}
+    open func visitFragmentSpread(fragmentSpread: FragmentSpread) throws {}
     
-    func exitFragmentSpread(fragmentSpread: FragmentSpread) throws {}
+    open func exitFragmentSpread(fragmentSpread: FragmentSpread) throws {}
     
-    func visitArgument(argument: Argument) throws {}
+    open func visitArgument(argument: Argument) throws {}
     
-    func visitInlineFragment(inlineFragment: InlineFragment) throws {}
+    open func visitInlineFragment(inlineFragment: InlineFragment) throws {}
     
-    func visitFragmentDefinition(fragmentDefinition: FragmentDefinition) throws {}
+    open func visitFragmentDefinition(fragmentDefinition: FragmentDefinition) throws {}
     
-    func exitFragmentDefinition(fragmentDefinition: FragmentDefinition) throws {}
+    open func exitFragmentDefinition(fragmentDefinition: FragmentDefinition) throws {}
     
-    func exitNamedType(namedType: String) throws {}
+    open func exitNamedType(namedType: String) throws {}
     
-    func exitListType(listType: Type) throws {}
+    open func exitListType(listType: Type) throws {}
     
-    func exitNonNullType(nonNullType: Type) throws {}
+    open func exitNonNullType(nonNullType: Type) throws {}
     
-    func visitNamedType(namedType: String) throws {}
+    open func visitNamedType(namedType: String) throws {}
     
-    func visitValue(value: Value) throws {}
+    open func visitValue(value: Value) throws {}
     
-    func visitVariable(variable: Variable) throws {}
+    open func visitVariable(variable: Variable) throws {}
     
-    func visitIntValue(intValue: String) throws {}
+    open func visitIntValue(intValue: String) throws {}
     
-    func visitFloatValue(floatValue: String) throws {}
+    open func visitFloatValue(floatValue: String) throws {}
     
-    func visitStringValue(stringValue: String) throws {}
+    open func visitStringValue(stringValue: String) throws {}
     
-    func visitBooleanValue(booleanValue: Bool) throws {}
+    open func visitBooleanValue(booleanValue: Bool) throws {}
     
-    func visitNullValue() throws {}
+    open func visitNullValue() throws {}
     
-    func visitEnumValue(enumValue: String) throws {}
+    open func visitEnumValue(enumValue: String) throws {}
     
-    func visitListValue(listValue: [Value]) throws {}
+    open func visitListValue(listValue: [Value]) throws {}
     
-    func visitObjectValue(objectValue: [ObjectField]) throws {}
+    open func visitObjectValue(objectValue: [ObjectField]) throws {}
     
-    func visitObjectField(objectField: ObjectField) throws {}
+    open func visitObjectField(objectField: ObjectField) throws {}
     
-    func visitDirective(directive: Directive) throws {}
+    open func visitDirective(directive: Directive) throws {}
     
-    func visitListType(listType: Type) throws {}
+    open func visitListType(listType: Type) throws {}
     
-    func visitNonNullType(nonNullType: Type) throws {}
+    open func visitNonNullType(nonNullType: Type) throws {}
     
-    func exitArgument(argument: Argument) throws {}
+    open func exitArgument(argument: Argument) throws {}
     
-    func exitInlineFragment(inlineFragment: InlineFragment) throws {}
+    open func exitInlineFragment(inlineFragment: InlineFragment) throws {}
     
-    func exitValue(value: Value) throws {}
+    open func exitValue(value: Value) throws {}
     
-    func exitVariable(variable: Variable) throws {}
+    open func exitVariable(variable: Variable) throws {}
     
-    func exitIntValue(intValue: String) throws {}
+    open func exitIntValue(intValue: String) throws {}
     
-    func exitFloatValue(floatValue: String) throws {}
+    open func exitFloatValue(floatValue: String) throws {}
     
-    func exitStringValue(stringValue: String) throws {}
+    open func exitStringValue(stringValue: String) throws {}
     
-    func exitBooleanValue(booleanValue: Bool) throws {}
+    open func exitBooleanValue(booleanValue: Bool) throws {}
     
-    func exitNullValue() throws {}
+    open func exitNullValue() throws {}
     
-    func exitEnumValue(enumValue: String) throws {}
+    open func exitEnumValue(enumValue: String) throws {}
     
-    func exitListValue(listValue: [Value]) throws {}
+    open func exitListValue(listValue: [Value]) throws {}
     
-    func exitObjectValue(objectValue: [ObjectField]) throws {}
+    open func exitObjectValue(objectValue: [ObjectField]) throws {}
     
-    func exitObjectField(objectField: ObjectField) throws {}
+    open func exitObjectField(objectField: ObjectField) throws {}
     
-    func exitDirective(directive: Directive) throws {}
+    open func exitDirective(directive: Directive) throws {}
 }
 
