@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Token: Equatable {
+public enum Token: Equatable {
     case identifier(String)
     case intValue(String)
     case floatValue(String)

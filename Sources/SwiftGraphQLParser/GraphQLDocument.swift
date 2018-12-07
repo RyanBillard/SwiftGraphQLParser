@@ -7,76 +7,76 @@
 
 import Foundation
 
-struct Document {
-    let definitions: [ExecutableDefinition]
+public struct Document {
+    public let definitions: [ExecutableDefinition]
 }
 
-enum ExecutableDefinition {
+public enum ExecutableDefinition {
     case operation(OperationDefinition)
     case fragment(FragmentDefinition)
 }
 
-enum OperationDefinition {
+public enum OperationDefinition {
     case selectionSet([Selection])
     case operation(Operation)
 }
 
-struct Operation {
-    let operationType: OperationType
-    let name: String?
-    let variableDefinitions: [VariableDefinition]?
-    let directives: [Directive]
-    let selectionSet: [Selection]
+public struct Operation {
+    public let operationType: OperationType
+    public let name: String?
+    public let variableDefinitions: [VariableDefinition]?
+    public let directives: [Directive]
+    public let selectionSet: [Selection]
 }
 
-enum OperationType: String {
+public enum OperationType: String {
     case query
     case mutation
     case subscription
 }
 
-enum Selection {
+public enum Selection {
     case field(Field)
     case fragmentSpread(FragmentSpread)
     case inlineFragment(InlineFragment)
 }
 
-struct Field {
-    let alias: String?
-    let name: String
-    let arguments: [Argument]
-    let directives: [Directive]
-    let selectionSet: [Selection]?
+public struct Field {
+    public let alias: String?
+    public let name: String
+    public let arguments: [Argument]
+    public let directives: [Directive]
+    public let selectionSet: [Selection]?
 }
 
-struct Argument {
-    let name: String
-    let value: Value
+public struct Argument {
+    public let name: String
+    public let value: Value
 }
 
-struct FragmentSpread {
-    let fragmentName: String
-    let directives: [Directive]
+public struct FragmentSpread {
+    public let fragmentName: String
+    public let directives: [Directive]
 }
 
-struct InlineFragment {
-    let typeCondition: TypeCondition?
-    let directives: [Directive]
-    let selectionSet: [Selection]
+public struct InlineFragment {
+    public let typeCondition: TypeCondition?
+    public let directives: [Directive]
+    public let selectionSet: [Selection]
 }
 
-struct FragmentDefinition {
-    let fragmentName: String
-    let typeCondition: TypeCondition
-    let directives: [Directive]
-    let selectionSet: [Selection]
+public struct FragmentDefinition {
+    public let fragmentName: String
+    public let typeCondition: TypeCondition
+    public let directives: [Directive]
+    public let selectionSet: [Selection]
 }
 
-struct TypeCondition {
-    let namedType: String
+public struct TypeCondition {
+    public let namedType: String
 }
 
-indirect enum Value {
+public indirect enum Value {
     case variable(Variable)
     case intValue(String)
     case floatValue(String)
@@ -88,33 +88,33 @@ indirect enum Value {
     case objectValue([ObjectField])
 }
 
-struct ObjectField {
-    let name: String
-    let value: Value
+public struct ObjectField {
+    public let name: String
+    public let value: Value
 }
 
-struct VariableDefinitions {
-    let variableDefinitions: [VariableDefinition]
+public struct VariableDefinitions {
+    public let variableDefinitions: [VariableDefinition]
 }
 
-struct VariableDefinition {
-    let variable: Variable
-    let type: Type
-    let defaultValue: Value?
-    let directives: [Directive]
+public struct VariableDefinition {
+    public let variable: Variable
+    public let type: Type
+    public let defaultValue: Value?
+    public let directives: [Directive]
 }
 
-struct Variable {
-    let name: String
+public struct Variable {
+    public let name: String
 }
 
-indirect enum Type {
+public indirect enum Type {
     case namedType(String)
     case listType(Type)
     case nonNullType(Type)
 }
 
-struct Directive {
-    let name: String
-    let arguments: [Argument]
+public struct Directive {
+    public let name: String
+    public let arguments: [Argument]
 }
