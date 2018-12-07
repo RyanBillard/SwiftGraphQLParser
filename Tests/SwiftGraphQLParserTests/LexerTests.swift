@@ -142,4 +142,42 @@ class LexerTests: XCTestCase {
         ]
         XCTAssertEqual(tokens, expectedTokens)
     }
+	
+	func testTokenize2() throws {
+		let query = """
+		fragment FulfillmentService on FulfillmentService {
+		  id
+		  productBased
+		  serviceName
+		  inventoryManagement
+		  handle
+		  type
+		  location {
+			id
+		  }
+		}
+
+		query ProductDetails($productID: ID!, $productImageSize: Int!, $variantImageSize: Int!, $locationId: ID!) {
+		  ...PublicationsSummary
+		  product(id: $productID) {
+			...ProductDetails
+		  }
+		  shop {
+			fulfillmentServices {
+			  ...FulfillmentService
+			}
+			weightUnit
+			richTextEditorUrl
+			url
+			productCostBetaFlag: beta(name: "product_cost")
+		  }
+		  onlineStore {
+			urlWithPasswordBypass
+		  }
+		}
+
+		"""
+		let tokens = try tokenize(query)
+		print(tokens)
+	}
 }

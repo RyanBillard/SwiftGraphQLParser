@@ -102,10 +102,17 @@ public class GraphQLTraverser {
     
     func traverseDirectives(directives: [Directive]) throws {
         for directive in directives {
-            try visitor.visitDirective(directive: directive)
-            try visitor.exitDirective(directive: directive)
-        }
+			try traverseDirective(directive: directive)
+		}
     }
+	
+	func traverseDirective(directive: Directive) throws {
+		try visitor.visitDirective(directive: directive)
+		
+		try traverseArguments(arguments: directive.arguments)
+		
+		try visitor.exitDirective(directive: directive)
+	}
     
     func traverseVariableDefinitions(definitions: [VariableDefinition]) throws {
         for definition in definitions {
