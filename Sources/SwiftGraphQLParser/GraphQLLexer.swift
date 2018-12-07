@@ -113,9 +113,11 @@ private extension Substring.UnicodeScalarView {
     mutating func readIdentifier() -> Token? {
         let start = self
         var identifier = ""
-        if let first = self.popFirst(), CharacterSet.letters.contains(first) {
+		let validFirstCharacters = CharacterSet.letters.union(CharacterSet(charactersIn: "_"))
+        if let first = self.popFirst(), validFirstCharacters.contains(first) {
             identifier.append(String(first))
-            while let next = self.first, CharacterSet.alphanumerics.contains(next) {
+			let validSecondaryCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "_"))
+            while let next = self.first, validSecondaryCharacters.contains(next) {
                 identifier.append(String(self.removeFirst()))
             }
             return .identifier(identifier)
