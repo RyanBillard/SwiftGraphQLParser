@@ -33,8 +33,8 @@ class LexerTests: XCTestCase {
                 totalSpent
             }
 
-            query CustomerList($after: String, $query: String, $imageMaxSize: Int!) {
-                customers(first: 50, after: $after, sortKey: NAME, query: $query) {
+            query CustomerList($after: String, $imageMaxSize: Int!) {
+                customers(first: 50, after: $after, sortKey: NAME, query: "abcdefg") {
                     edges {
                         cursor
                         node {
@@ -96,10 +96,6 @@ class LexerTests: XCTestCase {
             .colon,
             .identifier("String"),
             .dollarSign,
-            .identifier("query"),
-            .colon,
-            .identifier("String"),
-            .dollarSign,
             .identifier("imageMaxSize"),
             .colon,
             .identifier("Int"),
@@ -120,8 +116,7 @@ class LexerTests: XCTestCase {
             .identifier("NAME"),
             .identifier("query"),
             .colon,
-            .dollarSign,
-            .identifier("query"),
+            .stringValue(.singleQuote("abcdefg")),
             .rightParentheses,
             .leftCurlyBrace,
             .identifier("edges"),

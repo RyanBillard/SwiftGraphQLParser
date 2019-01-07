@@ -273,19 +273,18 @@ private extension Substring.UnicodeScalarView {
     mutating func readStringValue() -> Token? {
         let start = self
         
-        if let quote = readSingleQuote() {
-            var stringValue = quote
+        if let _ = readSingleQuote() {
+            var stringValue = ""
             while let next = self.first, CharacterSet.newlines.contains(next) == false && next != "\"" {
                 stringValue.append(String(self.removeFirst()))
             }
-            guard let endQuote = readSingleQuote() else {
+            guard let _ = readSingleQuote() else {
                 self = start
                 return nil
             }
-            stringValue.append(endQuote)
             return .stringValue(.singleQuote(stringValue))
-        } else if let quote = readBlockQuote() {
-            var stringValue = quote
+        } else if let _ = readBlockQuote() {
+            var stringValue = ""
             
             while let _ = self.first {
                 guard String(self.prefix(3)) != "\"\"\"" else {
@@ -294,11 +293,10 @@ private extension Substring.UnicodeScalarView {
                 stringValue.append(String(self.removeFirst()))
             }
             
-            guard let endQuote = readBlockQuote() else {
+            guard let _ = readBlockQuote() else {
                 self = start
                 return nil
             }
-            stringValue.append(endQuote)
             return .stringValue(.blockQuote(stringValue))
         }
         
