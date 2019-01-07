@@ -337,7 +337,7 @@ open class GraphQLBaseVisitor {
     
     open func visitFloatValue(floatValue: String) throws {}
     
-    open func visitStringValue(stringValue: String) throws {}
+    open func visitStringValue(stringValue: StringValue) throws {}
     
     open func visitBooleanValue(booleanValue: Bool) throws {}
     
@@ -369,7 +369,7 @@ open class GraphQLBaseVisitor {
     
     open func exitFloatValue(floatValue: String) throws {}
     
-    open func exitStringValue(stringValue: String) throws {}
+    open func exitStringValue(stringValue: StringValue) throws {}
     
     open func exitBooleanValue(booleanValue: Bool) throws {}
     

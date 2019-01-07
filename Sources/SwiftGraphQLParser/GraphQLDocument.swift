@@ -80,7 +80,7 @@ public indirect enum Value {
     case variable(Variable)
     case intValue(String)
     case floatValue(String)
-    case stringValue(String)
+    case stringValue(StringValue)
     case booleanValue(Bool)
     case nullValue
     case enumValue(String)

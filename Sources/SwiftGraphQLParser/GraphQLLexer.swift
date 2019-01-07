@@ -11,7 +11,7 @@ public enum Token: Equatable {
     case identifier(String)
     case intValue(String)
     case floatValue(String)
-    case stringValue(String)
+    case stringValue(StringValue)
     case exclamation
     case dollarSign
     case leftParentheses
@@ -25,6 +25,11 @@ public enum Token: Equatable {
     case leftCurlyBrace
     case rightCurlyBrace
     case pipe
+}
+
+public enum StringValue: Equatable {
+	case blockQuote(String)
+	case singleQuote(String)
 }
 
 enum LexerError: Error {
@@ -278,7 +283,7 @@ private extension Substring.UnicodeScalarView {
                 return nil
             }
             stringValue.append(endQuote)
-            return .stringValue(stringValue)
+            return .stringValue(.singleQuote(stringValue))
         } else if let quote = readBlockQuote() {
             var stringValue = quote
             
@@ -294,7 +299,7 @@ private extension Substring.UnicodeScalarView {
                 return nil
             }
             stringValue.append(endQuote)
-            return .stringValue(stringValue)
+            return .stringValue(.blockQuote(stringValue))
         }
         
         self = start
