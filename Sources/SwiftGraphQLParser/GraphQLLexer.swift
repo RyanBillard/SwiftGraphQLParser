@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Token: Equatable {
+public enum TokenType: Equatable {
 	case identifier(String)
 	case intValue(String)
 	case floatValue(String)
@@ -25,6 +25,12 @@ public enum Token: Equatable {
 	case leftCurlyBrace
 	case rightCurlyBrace
 	case pipe
+	case unrecognizedInput(String)
+}
+
+public struct Token: Equatable {
+	let type: TokenType
+	let range: Range<String.Index>
 }
 
 public enum StringValue: Equatable {
@@ -32,30 +38,54 @@ public enum StringValue: Equatable {
 	case singleQuote(String)
 }
 
-enum LexerError: Error {
-	case unrecognizedInput(String)
-}
-
-func tokenize(_ input: String) throws -> [Token] {
+func tokenize(_ input: String) -> [Token] {
 	var scalars = Substring(input).unicodeScalars
 	var tokens: [Token] = []
 	while let token = scalars.readToken() {
 		tokens.append(token)
 	}
 	if !scalars.isEmpty {
-		throw LexerError.unrecognizedInput(String(scalars))
+		tokens.append(
+			Token(
+				type: .unrecognizedInput(String(scalars)),
+				range: scalars.startIndex..<scalars.endIndex
+		))
 	}
 	return tokens
+}
+
+extension String.Index {
+	func lineAndColumn(in string: String) -> (line: Int, column: Int) {
+		var line = 1, column = 1
+		let linebreaks = CharacterSet.newlines
+		let scalars = string.unicodeScalars
+		var index = scalars.startIndex
+		while index < self {
+			if linebreaks.contains(scalars[index]) {
+				line += 1
+				column = 1
+			} else {
+				column += 1
+			}
+			index = scalars.index(after: index)
+		}
+		return (line: line, column: column)
+	}
 }
 
 private extension Substring.UnicodeScalarView {
 	mutating func readToken() -> Token? {
 		skipIgnoredTokens()
-		return readPunctuator()
+		let startIndex = self.startIndex
+		guard let tokenType = readPunctuator()
 			?? readIdentifier()
 			?? readFloatValue()
 			?? readIntValue()
-			?? readStringValue()
+			?? readStringValue() else {
+				return nil
+		}
+		let endIndex = self.startIndex
+		return Token(type: tokenType, range: startIndex..<endIndex)
 	}
 	
 	mutating func skipIgnoredTokens() {
@@ -76,7 +106,7 @@ private extension Substring.UnicodeScalarView {
 		}
 	}
 	
-	mutating func readPunctuator() -> Token? {
+	mutating func readPunctuator() -> TokenType? {
 		let start = self
 		switch self.popFirst() {
 		case "!":
@@ -115,7 +145,7 @@ private extension Substring.UnicodeScalarView {
 		return nil
 	}
 	
-	mutating func readIdentifier() -> Token? {
+	mutating func readIdentifier() -> TokenType? {
 		let start = self
 		var identifier = ""
 		let validFirstCharacters = CharacterSet.letters.union(CharacterSet(charactersIn: "_"))
@@ -131,7 +161,7 @@ private extension Substring.UnicodeScalarView {
 		return nil
 	}
 	
-	mutating func readIntValue() -> Token? {
+	mutating func readIntValue() -> TokenType? {
 		if let integer = readIntegerPart() {
 			return .intValue(integer)
 		}
@@ -186,7 +216,7 @@ private extension Substring.UnicodeScalarView {
 		return nil
 	}
 	
-	mutating func readFloatValue() -> Token? {
+	mutating func readFloatValue() -> TokenType? {
 		let start = self
 		
 		guard let integerPart = readIntegerPart() else {
@@ -270,7 +300,7 @@ private extension Substring.UnicodeScalarView {
 		return nil
 	}
 	
-	mutating func readStringValue() -> Token? {
+	mutating func readStringValue() -> TokenType? {
 		let start = self
 		
 		if let _ = readBlockQuote() {

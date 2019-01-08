@@ -7,21 +7,21 @@
 
 import Foundation
 
-public struct Document {
+public struct Document: Equatable {
 	public let definitions: [ExecutableDefinition]
 }
 
-public enum ExecutableDefinition {
+public enum ExecutableDefinition: Equatable {
 	case operation(OperationDefinition)
 	case fragment(FragmentDefinition)
 }
 
-public enum OperationDefinition {
+public enum OperationDefinition: Equatable {
 	case selectionSet([Selection])
 	case operation(Operation)
 }
 
-public struct Operation {
+public struct Operation: Equatable {
 	public let operationType: OperationType
 	public let name: String?
 	public let variableDefinitions: [VariableDefinition]?
@@ -29,19 +29,19 @@ public struct Operation {
 	public let selectionSet: [Selection]
 }
 
-public enum OperationType: String {
+public enum OperationType: String, Equatable {
 	case query
 	case mutation
 	case subscription
 }
 
-public enum Selection {
+public enum Selection: Equatable {
 	case field(Field)
 	case fragmentSpread(FragmentSpread)
 	case inlineFragment(InlineFragment)
 }
 
-public struct Field {
+public struct Field: Equatable {
 	public let alias: String?
 	public let name: String
 	public let arguments: [Argument]
@@ -49,34 +49,34 @@ public struct Field {
 	public let selectionSet: [Selection]?
 }
 
-public struct Argument {
+public struct Argument: Equatable {
 	public let name: String
 	public let value: Value
 }
 
-public struct FragmentSpread {
+public struct FragmentSpread: Equatable {
 	public let fragmentName: String
 	public let directives: [Directive]
 }
 
-public struct InlineFragment {
+public struct InlineFragment: Equatable {
 	public let typeCondition: TypeCondition?
 	public let directives: [Directive]
 	public let selectionSet: [Selection]
 }
 
-public struct FragmentDefinition {
+public struct FragmentDefinition: Equatable {
 	public let fragmentName: String
 	public let typeCondition: TypeCondition
 	public let directives: [Directive]
 	public let selectionSet: [Selection]
 }
 
-public struct TypeCondition {
+public struct TypeCondition: Equatable {
 	public let namedType: String
 }
 
-public indirect enum Value {
+public indirect enum Value: Equatable {
 	case variable(Variable)
 	case intValue(String)
 	case floatValue(String)
@@ -88,33 +88,33 @@ public indirect enum Value {
 	case objectValue([ObjectField])
 }
 
-public struct ObjectField {
+public struct ObjectField: Equatable {
 	public let name: String
 	public let value: Value
 }
 
-public struct VariableDefinitions {
+public struct VariableDefinitions: Equatable {
 	public let variableDefinitions: [VariableDefinition]
 }
 
-public struct VariableDefinition {
+public struct VariableDefinition: Equatable {
 	public let variable: Variable
 	public let type: Type
 	public let defaultValue: Value?
 	public let directives: [Directive]
 }
 
-public struct Variable {
+public struct Variable: Equatable {
 	public let name: String
 }
 
-public indirect enum Type {
+public indirect enum Type: Equatable {
 	case namedType(String)
 	case listType(Type)
 	case nonNullType(Type)
 }
 
-public struct Directive {
+public struct Directive: Equatable {
 	public let name: String
 	public let arguments: [Argument]
 }
